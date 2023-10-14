@@ -1,6 +1,6 @@
 [build]
-  publish = "path/to/your/fastapi/app"  # Specify the directory where your FastAPI application resides
-  functions = "path/to/your/netlify/functions"  # Specify the directory where your serverless functions will be stored
+  publish = "/"  # Specify the directory where your FastAPI application resides
+  functions = "/"  # Specify the directory where your serverless functions will be stored
   command = "pip install -r requirements.txt -t . && cd path/to/your/fastapi/app && uvicorn main:app --host 0.0.0.0 --port $PORT"  # Install dependencies, then start the FastAPI app with Uvicorn
 
 [[plugins]]
