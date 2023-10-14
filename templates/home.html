@@ -1,14 +1,45 @@
 {% include 'index.html'%}
+
+<style>
+    .resize-none {
+        resize: none;
+    }
+
+    .chat-message {
+        text-align: left;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc; 
+    }
+
+    .assistant-message {
+        background-color: #f2f2f2;
+    }
+
+    .chat-message strong {
+        font-weight: bold;
+    }
+</style>
 <div>
-    <div class="card text-center mt-3">
-        <div class="card-header" style="background-color: #C8E6C9; color: #6a1313;">
+    <div class="card mt-3">
+        <div class="card-header text-center" style="background-color: #C8E6C9; color: #6a1313;">
             <h2 class="m-0">Chat History</h2>
         </div>
         <div class="card-body">
             {% for response in chat_responses %}
-            <div>
-                {{ response }}
+            {% if response.startswith('You:') %}
+            <div class="chat-message">
+                <strong style="color:rgb(57, 211, 228)">You:</strong> {{ response[4:] | safe }}
             </div>
+            {% elif response.startswith('Assistant:') %}
+            <div class="chat-message assistant-message">
+                <strong style="color:green">Assistant:</strong> {{ response[10:] | safe }}
+            </div>
+            {% else %}
+            <div class="chat-message">
+                {{ response | safe }}
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -16,7 +47,7 @@
     <form action="/" method="POST" class="mt-4">
         <div class="form-group">
             <textarea class="form-control resize-none" style="width: 100%"
-                placeholder="Add input here"
+                placeholder="Start With 'Hello' OR Input Your Answers Here"
                 name="user_input" rows="3"></textarea>
         </div>
         <div class="d-flex justify-content-end">
