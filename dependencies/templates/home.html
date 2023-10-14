@@ -1,30 +1,56 @@
 {% include 'index.html'%}
+
+<style>
+    .resize-none {
+        resize: none;
+    }
+
+    .chat-message {
+        text-align: left;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc; 
+    }
+
+    .assistant-message {
+        background-color: #f2f2f2;
+    }
+
+    .chat-message strong {
+        font-weight: bold;
+    }
+</style>
 <div>
-    <div class="card text-center mt-3">
-        <div class="card-header">
-            History
+    <div class="card mt-3">
+        <div class="card-header text-center" style="background-color: #C8E6C9; color: #6a1313;">
+            <h2 class="m-0">Chat History</h2>
         </div>
         <div class="card-body">
-            {% for response in chat_responses%}
-            <div>
-                - {{response}}
+            {% for response in chat_responses %}
+            {% if response.startswith('You:') %}
+            <div class="chat-message">
+                <strong style="color:rgb(57, 211, 228)">You:</strong> {{ response[4:] | safe }}
             </div>
+            {% elif response.startswith('Assistant:') %}
+            <div class="chat-message assistant-message">
+                <strong style="color:green">Assistant:</strong> {{ response[10:] | safe }}
+            </div>
+            {% else %}
+            <div class="chat-message">
+                {{ response | safe }}
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
-
     </div>
-</div>
 
-<div class="container mt-5">
-    <h3>
-        Add input to chat with personal chatbot.
-    </h3>
-    <form action="/" method="POST">
-        <div>
-            <textarea class="form-control" placeholder="Add input here" name="user_input" rows="3"></textarea>
-            <button class="btn btn-primary mt-1" type="submit">Send</button>
+    <form action="/" method="POST" class="mt-4">
+        <div class="form-group">
+            <textarea class="form-control resize-none" style="width: 100%"
+                placeholder="Start With 'Hello' OR Input Your Answers Here"
+                name="user_input" rows="3"></textarea>
         </div>
-    <form>
-    
-        
-</div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success btn-lg mt-3" type="submit">Send</button>
+        </div>
+    </form>
